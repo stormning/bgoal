@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+	<definition name="mainTemplate" template="/WEB-INF/views/main.jsp">
+		<put-attribute name="global" value="/WEB-INF/views/global.jsp"/>
+	</definition>
+	
+	<definition name="adminTemplate" extends="mainTemplate">
+		<put-attribute name="content" value="/WEB-INF/views/admin/layout.jsp" cascade="true"/>
+	</definition>
+	
+	<definition name="admin.*" extends="adminTemplate">
+		<put-attribute name="right" expression="/WEB-INF/views/admin/{1}.jsp" cascade="true"/>
+	</definition>
+	
+	<!-- 最大的匹配放在最下面 -->
+	<definition name="alone:*.*" templateExpression="/WEB-INF/views/{1}/{2}.jsp"/>
+	<definition name="*.*" extends="mainTemplate">
+		<put-attribute name="content" expression="/WEB-INF/views/{1}/{2}.jsp" cascade="true"/>
+	</definition>
+</tiles-definitions>

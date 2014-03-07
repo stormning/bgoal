@@ -1,0 +1,12 @@
+ chunk, is_date, is_hash, float, matches, time, number_to_datetime, byte, substring, is_transform, 
+ web_safe, iso_ms_nz, groups, seq_contains, iso, is_method, eval, iso_ms, iso_utc_m_nz, parent, 
+ capitalize, number, if_exists, is_directive, iso_utc_h_nz, floor, is_boolean, split, node_name, 
+ seq_index_of, is_sequence, sort, is_node, sort_by, xhtml, iso_local_m_nz, iso_nz, node_namespace, date, 
+ last_index_of, short, ancestors, length, datetime, iso_local_ms, reverse, c, keys, iso_local_h_nz, 
+ has_content, replace, is_hash_ex, is_number, new, lower_case, string, exists, last, root, j_string, contains, 
+ round, long, ends_with, number_to_date, namespace, values, seq_last_index_of, uncap_first, iso_local, 
+ is_macro, index_of, word_list, int, iso_utc_nz, xml, double, node_type, rtf, url, iso_m, size, default, iso_h, 
+ iso_utc_m, ceiling, iso_h_nz, is_enumerable, iso_utc_h, iso_local_nz, iso_m_nz, left_pad, iso_utc_ms_nz, 
+ cap_first, interpret, children, chop_linebreak, is_collection, iso_utc, trim, is_string, number_to_time, 
+ upper_case, js_string, right_pad, is_indexable, iso_local_ms_nz, iso_utc_ms, iso_local_h, html, 
+ iso_local_m, first, starts_with
