@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
@@ -21,15 +24,15 @@ import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.NumericRangeQuery;
 import org.apache.lucene.util.Version;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.UrlPathHelper;
 
 import com.alibaba.fastjson.JSON;
 import com.slyak.bgoal.model.Article;
@@ -44,11 +47,12 @@ import com.slyak.bgoal.service.IndexProvider;
 import com.slyak.bgoal.service.SearchService;
 import com.slyak.bgoal.service.SourceService;
 import com.slyak.bgoal.util.Constants;
+import com.slyak.core.http.WrappedRequest;
 import com.slyak.core.io.image.CommonImage;
 import com.slyak.core.web.OffsetLimitRequest;
+import com.slyak.file.service.FileService;
 import com.slyak.user.model.User;
 import com.slyak.user.service.UserService;
-import com.slyak.user.service.impl.UserServiceImpl;
 import com.slyak.user.util.UserQuery;
 
 @Controller
@@ -74,7 +78,17 @@ public class AdminController {
 
 	@Autowired
 	private Analyzer analyzer;
+	
+	@Autowired
+	private FileService fileService;
 
+	
+	private UrlPathHelper urlPathHelper = new UrlPathHelper();
+	
+	{
+		urlPathHelper.setAlwaysUseFullPath(true);
+	}
+	
 	@RequestMapping({"/sources",""})
 	public String sources(Model model){
 		model.addAttribute("sources", sourceService.findAll());
@@ -108,12 +122,23 @@ public class AdminController {
 	}
 
 	@RequestMapping("/source/save")
-	public String sourceSave(Source source,String script,String imgUrl,RuleType ruleType,Model model){
+	public String sourceSave(Source source,String script,String imgUrl,RuleType ruleType,HttpServletRequest request,Model model){
 		//TODO ADD THEM TO SERVICE
 		sourceService.save(source);
 		if(!StringUtils.isEmpty(script)){
 			sourceService.saveRule(source.getId(),script,ruleType);
 		}
+		
+		File sourcePic = fileService.findReal(String.valueOf(Constants.TYPES.SOURCE), String.valueOf(source.getId()), FileService.ORIGINAL_FILE);
+		try {
+			CommonImage ci = new CommonImage(imgUrl);
+			ci.save(sourcePic);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+//		fileService.
+		
 //		Resource r = resourceMappingManager.getRealPathByBizAndOwner(String.valueOf(Constants.TYPES.SOURCE), String.valueOf(source.getId()));
 //		try {
 //			String basePath = r.getFile().getPath();

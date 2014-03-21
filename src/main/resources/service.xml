@@ -126,44 +126,62 @@
 						<entry key="big">
 							<bean class="com.slyak.file.bo.ImageConfig">
 								<property name="imgSize" ref="120x120"/>
-								<property name="defaultImgLocation" value="classpath:/user/120x120.png"/>
+								<property name="defaultImgLocation" value="classpath:/default/user/120x120.png"/>
 							</bean>
 						</entry>
 						<entry key="middle">
 							<bean class="com.slyak.file.bo.ImageConfig">
 								<property name="imgSize" ref="90x90"/>
-								<property name="defaultImgLocation" value="classpath:/user/90x90.png"/>
+								<property name="defaultImgLocation" value="classpath:/default/user/90x90.png"/>
 							</bean>
 						</entry>
 						<entry key="small">
 							<bean class="com.slyak.file.bo.ImageConfig">
 								<property name="imgSize" ref="45x45"/>
-								<property name="defaultImgLocation" value="classpath:/user/45x45.png"/>
+								<property name="defaultImgLocation" value="classpath:/default/user/45x45.png"/>
 							</bean>
 						</entry>
 					</map>
 				</entry>
+				<!-- source picture -->
+				<entry key="source">
+					<map>
+						<entry key="big">
+							<bean class="com.slyak.file.bo.ImageConfig">
+								<property name="imgSize" ref="120x120"/>
+								<property name="defaultImgLocation" value="classpath:/default/source/120x120.png"/>
+							</bean>
+						</entry>
+						<entry key="middle">
+							<bean class="com.slyak.file.bo.ImageConfig">
+								<property name="imgSize" ref="90x90"/>
+								<property name="defaultImgLocation" value="classpath:/default/source/90x90.png"/>
+							</bean>
+						</entry>
+						<entry key="small">
+							<bean class="com.slyak.file.bo.ImageConfig">
+								<property name="imgSize" ref="45x45"/>
+								<property name="defaultImgLocation" value="classpath:/default/source/45x45.png"/>
+							</bean>
+						</entry>
+					</map>
+				</entry>
+				
 			</map>
 		</property>
 	</bean>
-	<!-- article maker -->
-	<bean id="articleMaker" class="com.slyak.bgoal.service.impl.ArticleSpiderImpl">
+
+
+	<!-- article spider -->
+	<bean class="com.slyak.bgoal.service.impl.ArticleSpiderImpl">
 		<property name="sourceResolvers">
 			<list>
 				<bean class="com.slyak.bgoal.service.impl.NormalSourceResolver"/>
 			</list>
 		</property>
 	</bean>
-	
+
 	<!-- tasks -->
-	<bean id="articleTask" class="com.slyak.bgoal.service.impl.ArticleSpiderImpl">
-		<property name="sourceResolvers">
-			<list>
-				<bean class="com.slyak.bgoal.service.impl.NormalSourceResolver"/>
-			</list>
-		</property>
-	</bean>
-	
 	<bean id="articleMarkerTask" class="com.slyak.bgoal.task.ArticleMarkerTask"/>
 	
 	<task:scheduler id="defaultScheduler" pool-size="10"/>

@@ -9,6 +9,8 @@
 package com.slyak.bgoal.task;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,20 +21,23 @@ import com.slyak.bgoal.service.Spider;
 
 public class ArticleMarkerTask {
 	
+	private ExecutorService executorService = Executors.newFixedThreadPool(10);
+	
 	@Autowired
 	private SourceService sourceService;
 	
 	@Autowired
-	private Spider articleMaker;
+	private Spider spider;
 	
 	public void make(){
 		List<Source> sources = sourceService.findByStatus(Status.ENABLED);
 		for (final Source source : sources) {
-			new Runnable() {
+			Runnable runnable = new Runnable() {
 				public void run() {
-					articleMaker.fetch(source);
+					spider.fetch(source);
 				}
-			}.run();
+			};
+			executorService.execute(runnable);
 		}
 	}
 }
